@@ -15,8 +15,8 @@ class Search extends HTMLElement{
                 </div>
             </form>
             <div class="mt-3"> Last Searched Pokemon : </div> 
-            ${lastSearch ? `
             <div id="last-search">
+            ${lastSearch ? `
              <pokemon-card class="mt-3" pokemon-data = ${JSON.stringify(lastSearch)}></pokemon-card> ` : "Haven't searched any"}
             </div>
             </div>
