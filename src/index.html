@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta charset="UTF-8">
     <title>Pokemon</title>
     <style>
-        top-pokemon  a{
-            text-decoration: none ;
+        body {
+            padding: 0;
+            margin: 0;
         }
-        .card-img{
-            width: 10rem;
-            height: 10rem;
+
+        .header{
+            display: flex;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-size: xx-large;
+            padding: 1rem;
+            background: #212529;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        .container{
+            margin: 1rem;
+            padding: 1rem;
         }
     </style>
 </head>
 <body>
-    <outlet></outlet>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+    </style>
+    <div class="header">Pokemon finder</div>
+    <div class="container">
+        <search-pokemon></search-pokemon>
+        <top-pokemon></top-pokemon>
+        <div class="pokemon">
+        </div>
+    </div>
 </body>
 </html>

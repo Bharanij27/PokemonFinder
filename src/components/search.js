@@ -1,49 +1,70 @@
 class Search extends HTMLElement{
-    connectedCallback(){
-        let lastSearch = JSON.parse(localStorage.getItem("last-search"));
-        this.innerHTML = `
-            <app-header/></app-header>
-            <div class="container p-5">
-            <form id="formElem>
-                <div class="form-row align-items-center">
-                    <div class="col-sm-3 my-1">
-                        <input type="text" class="form-control" id="pokemon-search" placeholder="pikachu" required>
-                    </div>
-                    <div class="col-auto my-1 mt-3">
-                        <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
-                </div>
-            </form>
-            <div class="mt-3"> Last Searched Pokemon : </div> 
-            <div id="last-search">
-            ${lastSearch ? `
-             <pokemon-card class="mt-3" pokemon-data = ${JSON.stringify(lastSearch)}></pokemon-card> ` : "Haven't searched any"}
-            </div>
-            </div>
-        `
+    constructor(){
+        super();
+        this.attachShadow({mode : 'open'})
+        this.shadowRoot.appendChild(searchForm.content.cloneNode(true))
+    }
 
-        this.querySelector("form").onsubmit = ((e, a) => {
+    connectedCallback(){
+        let lastSearch = localStorage.getItem("last-search");
+        console.log('lastSearch', lastSearch);
+        this.shadowRoot.querySelector("form").onsubmit = ((e, a) => {
             e.preventDefault();
-            let searchQuery = this.querySelector("#pokemon-search").value
+            let searchQuery = this.shadowRoot.querySelector("#pokemon-search").value
             console.log(searchQuery)
-            this.fetchPokemon(searchQuery);
+            document.querySelector(".pokemon").innerHTML = `
+            <pokemon-card pokemon-name = ${searchQuery} search=true></pokemon-card></div>`
             return false;
         })
-    }
 
-    fetchPokemon = (query) => {
-        console.log(query.trim().toLowerCase());
-        fetch(`https://pokeapi.co/api/v2/pokemon/${query.trim().toLowerCase()}`)
-            .then(fetchData => fetchData.json())
-            .then(data  => {
-                document.querySelector("#last-search").innerHTML = data ?
-                `<pokemon-card class="mt-3" pokemon-data = ${JSON.stringify(data)}></pokemon-card>`:""
-                localStorage.setItem("last-search", JSON.stringify(data));
-            }).catch((e)=>{
-                console.log(e)
-                document.querySelector("#last-search").innerHTML = "No data found for query"
-            })
+        if(lastSearch){
+            document.querySelector(".pokemon").innerHTML = `
+            <pokemon-card pokemon-name = ${lastSearch}></pokemon-card></div>`
+        }
     }
 }
+
+
+const searchForm = document.createElement("template");
+searchForm.innerHTML = `
+<style>
+input[type=text] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  
+  .form-container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    width: max-content;
+    margin: 20px 0;
+  }
+</style>
+
+<div class="form-container">
+<form id="formElem">
+<input type="text"  name="pokemonname" id="pokemon-search" placeholder="Pikachu">
+<input type="submit" value="Fetch">
+</form>
+</div>`
 
 customElements.define("search-pokemon", Search);
