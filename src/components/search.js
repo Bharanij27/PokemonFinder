@@ -18,6 +18,7 @@ class Search extends HTMLElement{
         })
 
         if(lastSearch){
+            this.shadowRoot.querySelector("#pokemon-search").value = lastSearch
             document.querySelector(".pokemon").innerHTML = `
             <pokemon-card pokemon-name = ${lastSearch}></pokemon-card></div>`
         }
