@@ -23,11 +23,11 @@ class PokemonCart extends HTMLElement{
         .then(fetchData => fetchData.json())
         .then(data  => {
             this.addPokemonCard(data)
-            this.shadowRoot.innerHTML += `<pokemon-card class="mt-3" pokemon-data = ${JSON.stringify(data)}></pokemon-card></div>`
+            this.shadowRoot.innerHTML = `<pokemon-card class="mt-3" pokemon-data = ${JSON.stringify(data)}></pokemon-card></div>`
             console.log(search);
             search && localStorage.setItem("last-search", pokemonName);
         }).catch((e) => {
-            this.shadowRoot.innerHTML += `<div class="m-5">No data found</div>`
+            this.shadowRoot.innerHTML = `<div class="m-5">No data found</div>`
         });
     }
 
